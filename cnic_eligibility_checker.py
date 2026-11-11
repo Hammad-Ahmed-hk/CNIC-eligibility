@@ -3,13 +3,13 @@ import tkinter as tk
 from tkinter import messagebox
 
 def check_eligibility(event=None):  # Allow an optional event parameter for binding
-    name = entry_name.get()
+    name = entry_name.get().strip()
     try:
         age = int(entry_age.get())
-        
-        # Store name and age in a file
-        with open('Hamizzzzz.pdf', 'a') as file:
-            file.write(f"Name: {name}, Age: {age}\n")
+
+        # Personal data (name, age) is intentionally not saved to disk.
+        if not name or age < 0:
+            raise ValueError
 
         if age >= 18:
             message = f"{name}, you are eligible for CNIC."
@@ -22,7 +22,7 @@ def check_eligibility(event=None):  # Allow an optional event parameter for bind
         # Reset fields for the next user after a brief delay
         root.after(3000, reset_fields)  # Wait for 3 seconds before resetting
     except ValueError:
-        messagebox.showerror("Invalid input", "Please enter a valid age.")
+        messagebox.showerror("Invalid input", "Please enter your name and a valid age.")
 
 def reset_fields():
     entry_name.delete(0, tk.END)  # Clear the name entry
